@@ -120,6 +120,18 @@ campo de link por um `<input type="file">` e enviar com `FormData` em vez de JSO
 > Limite do plano gratuito do Formspree: verifique a cota mensal de envios no painel antes de
 > divulgar o link em larga escala.
 
+## Contador de visitas
+
+Cada navegador que abre a página soma **1** num contador do serviço gratuito Abacus
+(`abacus.jasoncameron.dev`), sem cookies e sem dado pessoal. Quem volta à página no mesmo
+navegador não conta de novo, então o número se aproxima de "pessoas que acessaram".
+Nada aparece para o candidato.
+
+Para ver o número, abra **`visitas.html`** (ex.: `https://USUARIO.github.io/recrutamento-studio-wen/visitas.html`).
+Essa página não tem link em lugar nenhum e não aparece no Google.
+
+O contador fica no fim do `script.js` (constante `CONTADOR_URL`).
+
 ## 5. Publicar pelo GitHub Pages
 
 1. Crie um repositório (ex.: `recrutamento-studio-wen`) e envie **o conteúdo desta pasta** para

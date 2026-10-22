@@ -253,3 +253,19 @@ const TEMPO_LIMITE_MS = 20000;
     }
   });
 })();
+
+/* ---------- Contador de visitas (oculto) ----------
+   Soma 1 por navegador no serviço gratuito Abacus. Sem cookies e sem dado pessoal.
+   Para ver o total, abra visitas.html. */
+const CONTADOR_URL = "https://abacus.jasoncameron.dev/hit/wenprodutora-recrutamento/visitas";
+
+(function () {
+  let jaContado = false;
+  try { jaContado = localStorage.getItem("wen_recrutamento_visita") === "1"; } catch (e) { /* sem storage: conta mesmo assim */ }
+  if (jaContado) return;
+  fetch(CONTADOR_URL, { mode: "cors", keepalive: true })
+    .then(function (r) {
+      if (r.ok) { try { localStorage.setItem("wen_recrutamento_visita", "1"); } catch (e) { /* ignora */ } }
+    })
+    .catch(function () { /* contador fora do ar não afeta a página */ });
+})();
