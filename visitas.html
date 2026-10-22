@@ -10,7 +10,9 @@
     :root { color-scheme: dark; --bg: #0f0b17; --text: #f6f2ff; --muted: #c4b9dc; --accent: #f0c419; }
     body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--text);
            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 24px; box-sizing: border-box; text-align: center; }
-    .num { font-size: clamp(4rem, 20vw, 9rem); font-weight: 700; color: var(--accent); line-height: 1; margin: 8px 0 12px; font-variant-numeric: tabular-nums; }
+    .num { font-size: clamp(3.5rem, 16vw, 7rem); font-weight: 700; color: var(--accent); line-height: 1; margin: 0 0 10px; font-variant-numeric: tabular-nums; }
+    .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px 64px; margin: 28px 0 20px; }
+    .taxa { color: var(--text); font-weight: 600; }
     p { margin: 0 0 6px; color: var(--muted); }
     h1 { font-size: 1.1rem; font-weight: 600; margin: 0; }
   </style>
@@ -18,20 +20,41 @@
 <body>
   <main>
     <h1>Página de candidatura — freelancer de audiovisual</h1>
-    <div class="num" id="total" aria-live="polite">…</div>
-    <p>pessoas acessaram (contando 1 vez por navegador)</p>
+    <div class="stats">
+      <div>
+        <div class="num" id="total">…</div>
+        <p>pessoas acessaram</p>
+      </div>
+      <div>
+        <div class="num" id="enviadas">…</div>
+        <p>candidaturas enviadas</p>
+      </div>
+    </div>
+    <p class="taxa" id="taxa"></p>
+    <p>Acessos contam 1 vez por navegador.</p>
     <p id="quando"></p>
   </main>
   <script>
-    fetch("https://abacus.jasoncameron.dev/get/wenprodutora-recrutamento/visitas", { cache: "no-store" })
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        document.getElementById("total").textContent = (d.value || 0).toLocaleString("pt-BR");
+    var BASE = "https://abacus.jasoncameron.dev/get/wenprodutora-recrutamento/";
+    function ler(chave) {
+      return fetch(BASE + chave, { cache: "no-store" })
+        .then(function (r) { return r.ok ? r.json() : { value: 0 }; })
+        .then(function (d) { return d.value || 0; });
+    }
+    Promise.all([ler("visitas"), ler("candidaturas")])
+      .then(function (v) {
+        document.getElementById("total").textContent = v[0].toLocaleString("pt-BR");
+        document.getElementById("enviadas").textContent = v[1].toLocaleString("pt-BR");
+        if (v[0] > 0) {
+          document.getElementById("taxa").textContent =
+            Math.round((v[1] / v[0]) * 100) + "% de quem acessou enviou a candidatura";
+        }
         document.getElementById("quando").textContent = "Atualizado em " + new Date().toLocaleString("pt-BR");
       })
       .catch(function () {
         document.getElementById("total").textContent = "—";
-        document.getElementById("quando").textContent = "Não foi possível carregar o contador agora. Tente recarregar.";
+        document.getElementById("enviadas").textContent = "—";
+        document.getElementById("quando").textContent = "Não foi possível carregar os contadores agora. Tente recarregar.";
       });
   </script>
 </body>

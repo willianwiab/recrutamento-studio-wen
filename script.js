@@ -11,6 +11,7 @@ const FORM_ENDPOINT = "https://formspree.io/f/mrppzvko";
 
 const ASSUNTO = "Candidatura freelancer — Audiovisual Studio WEN";
 const TEMPO_LIMITE_MS = 20000;
+const CONTADOR_CANDIDATURAS_URL = "https://abacus.jasoncameron.dev/hit/wenprodutora-recrutamento/candidaturas";
 
 (function () {
   "use strict";
@@ -236,6 +237,8 @@ const TEMPO_LIMITE_MS = 20000;
         avisoIndisponivel.hidden = true;
         sucesso.hidden = false;
         sucesso.focus();
+        // contador oculto de candidaturas enviadas (ver visitas.html); falha não afeta o candidato
+        fetch(CONTADOR_CANDIDATURAS_URL, { mode: "cors", keepalive: true }).catch(function () {});
         return;
       }
 
