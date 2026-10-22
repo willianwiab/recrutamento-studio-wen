@@ -7,7 +7,7 @@
    "https://formspree.io/f/XXXXXXXX". Enquanto estiver vazio, a página
    NÃO envia candidaturas e mostra um aviso de indisponibilidade.
    ============================================================ */
-const FORM_ENDPOINT = "";
+const FORM_ENDPOINT = "https://formspree.io/f/mrppzvko";
 
 const ASSUNTO = "Candidatura freelancer — Audiovisual Studio WEN";
 const TEMPO_LIMITE_MS = 20000;
